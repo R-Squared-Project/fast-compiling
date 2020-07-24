@@ -419,7 +419,7 @@ namespace fc { namespace http {
             {
                _server.set_tls_init_handler( [this,server_pem,ssl_password]( websocketpp::connection_hdl hdl ) {
                      context_ptr ctx = websocketpp::lib::make_shared<boost::asio::ssl::context>(
-                                             boost::asio::ssl::context::tlsv1 );
+                                             boost::asio::ssl::context::tlsv12 );
                      try {
                         ctx->set_options( boost::asio::ssl::context::default_workarounds |
                                           boost::asio::ssl::context::no_sslv2 |
