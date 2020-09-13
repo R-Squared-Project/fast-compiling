@@ -419,11 +419,13 @@ namespace fc { namespace http {
             {
                _server.set_tls_init_handler( [this,server_pem,ssl_password]( websocketpp::connection_hdl hdl ) {
                      context_ptr ctx = websocketpp::lib::make_shared<boost::asio::ssl::context>(
-                                             boost::asio::ssl::context::tlsv1 );
+                                             boost::asio::ssl::context::tlsv12 );
                      try {
                         ctx->set_options( boost::asio::ssl::context::default_workarounds |
                                           boost::asio::ssl::context::no_sslv2 |
                                           boost::asio::ssl::context::no_sslv3 |
+                                          boost::asio::ssl::context::no_tlsv1 |
+                                          boost::asio::ssl::context::no_tlsv1_1 |
                                           boost::asio::ssl::context::single_dh_use );
                         ctx->set_password_callback(
                               [ssl_password](std::size_t max_length, boost::asio::ssl::context::password_purpose){
@@ -582,11 +584,13 @@ namespace fc { namespace http {
 
                 _client.set_tls_init_handler( [this,ca_filename_copy](websocketpp::connection_hdl) {
                    context_ptr ctx = websocketpp::lib::make_shared<boost::asio::ssl::context>(
-                                           boost::asio::ssl::context::tlsv1);
+                                           boost::asio::ssl::context::tlsv12);
                    try {
                       ctx->set_options( boost::asio::ssl::context::default_workarounds |
                                         boost::asio::ssl::context::no_sslv2 |
                                         boost::asio::ssl::context::no_sslv3 |
+                                        boost::asio::ssl::context::no_tlsv1 |
+                                        boost::asio::ssl::context::no_tlsv1_1 |
                                         boost::asio::ssl::context::single_dh_use );
 
                       setup_peer_verify( ctx, ca_filename_copy );
