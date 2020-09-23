@@ -23,7 +23,7 @@ else
     | while read t; do
 	case "$t" in
 	/*) echo "$pre$t"; ;;
-	*) pre="$t"; ;;
+	*) echo "$t"; ;;
 	esac
       done \
     | parallel echo Running {}\; "$@" -t {}
