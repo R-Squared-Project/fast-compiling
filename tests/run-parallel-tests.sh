@@ -17,23 +17,27 @@ if [ "$BOOST_VERSION" = "" -o "$BOOST_VERSION" -lt 105900 ]; then
     echo "Boost version '$BOOST_VERSION' - executing tests serially"
     "$@"
 else
+  echo "=== $1 list_content test begin ==="
+  "$1" --list_content 2>&1 \
+    | grep '\*$' \
+    | sed 's=\*$==;s=^    =/='
+  echo "=== $1 list_content test end ==="
   "$1" --list_content 2>&1 \
     | grep '\*$' \
     | sed 's=\*$==;s=^    =/=' \
-    | while read t; do
-	case "$t" in
-	/*) echo "$pre$t"; ;;
-	*) echo "$t"; ;;
-	esac
+    | (while read t; do
+        case "$t" in
+        /*) echo "$pre$t"; found=1; ;;
+        *) if [ -n "$pre" -a "$found" = "0" ]; then
+              echo "$pre"
+           fi
+           pre="$t"
+           found=0
+           ;;
+        esac
       done
-  "$1" --list_content 2>&1 \
-    | grep '\*$' \
-    | sed 's=\*$==;s=^    =/=' \
-    | while read t; do
-	case "$t" in
-	/*) echo "$pre$t"; ;;
-	*) echo "$t"; ;;
-	esac
-      done \
+      if [ -n "$pre" -a "$found" = "0" ]; then
+        echo "$pre"
+      fi) \
     | parallel echo Running {}\; "$@" -t {}
 fi
