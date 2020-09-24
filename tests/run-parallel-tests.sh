@@ -25,6 +25,15 @@ else
 	/*) echo "$pre$t"; ;;
 	*) echo "$t"; ;;
 	esac
+      done
+  "$1" --list_content 2>&1 \
+    | grep '\*$' \
+    | sed 's=\*$==;s=^    =/=' \
+    | while read t; do
+	case "$t" in
+	/*) echo "$pre$t"; ;;
+	*) echo "$t"; ;;
+	esac
       done \
     | parallel echo Running {}\; "$@" -t {}
 fi
