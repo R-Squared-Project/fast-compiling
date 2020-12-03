@@ -16,6 +16,9 @@ fi
 if [ "$BOOST_VERSION" = "" -o "$BOOST_VERSION" -lt 105900 ]; then
     echo "Boost version '$BOOST_VERSION' - executing tests serially"
     "$@"
+elif ! command -v parallel >/dev/null 2>&1; then
+    echo "Can not find the 'parallel' command - executing tests serially"
+    "$@"
 else
   echo "=== $1 list_content test begin ==="
   "$1" --list_content 2>&1 \
