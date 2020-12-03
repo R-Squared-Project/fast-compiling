@@ -44,8 +44,8 @@ jobs:
         df -h
     - name: Unit-Tests
       run: |
+        tests/run-parallel-tests.sh _build/tests/all_tests -l message
         pushd _build/tests
-        ./all_tests -l message
         ./bloom_test -- README.md
         ./ecc_test README.md
         ./hmac_test

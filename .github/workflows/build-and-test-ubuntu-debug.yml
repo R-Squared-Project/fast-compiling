@@ -64,8 +64,8 @@ jobs:
         make -j 2 -C _build
     - name: Test
       run: |
+        tests/run-parallel-tests.sh _build/tests/all_tests -l message
         parallel echo Running {}\; sh -c "_build/tests/{}" <<_EOT_
-        all_tests -l message
         bloom_test -- README.md
         ecc_test README.md
         hmac_test
