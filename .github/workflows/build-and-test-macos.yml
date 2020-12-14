@@ -6,7 +6,10 @@ env:
 jobs:
   test-macos:
     name: Build and run tests in macOS
-    runs-on: macos-latest
+    strategy:
+      matrix:
+        os: [macos-10.15, macos-11.0]
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Install dependencies
       run: |
