@@ -1,4 +1,4 @@
-name: Github Autobuild macOS
+name: Github CI macOS
 on: [ push, pull_request ]
 env:
   CCACHE_COMPRESS: exists means true

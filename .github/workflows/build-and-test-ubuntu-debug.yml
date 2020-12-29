@@ -1,4 +1,4 @@
-name: Github Autobuild Ubuntu Debug
+name: Github CI Ubuntu Debug
 on: [ push, pull_request ]
 env:
   CCACHE_COMPRESS: exists means true
