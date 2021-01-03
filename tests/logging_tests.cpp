@@ -40,6 +40,7 @@ BOOST_AUTO_TEST_CASE(log_reboot)
     {
         fc::log_context ctx(fc::log_level::all, "my_file.cpp", i, "my_method()");
         fc::log_message my_log_message( ctx, "${message}", {"message","This is a test"} );
+        fc::time_point old_now = fc::time_point::now();
         fa->log(my_log_message);
 
         fc::time_point now = fc::time_point::now();
@@ -51,7 +52,7 @@ BOOST_AUTO_TEST_CASE(log_reboot)
         fc::path log_filename = link_filename.parent_path() / (link_filename.filename().string() + "." + timestamp_string);
 
         if (prev_log_filename != log_filename) {
-            if (i > conf.rotation_interval.to_seconds()) {
+            if (i > conf.rotation_interval.to_seconds() && old_now.sec_since_epoch() / interval_seconds == file_number ) {
                 std::string rez;
                 fc::read_file_contents(prev_log_filename, rez);
                 std::size_t found = rez.find("my_file.cpp:" + std::to_string(i - 1));
