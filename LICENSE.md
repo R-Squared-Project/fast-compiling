@@ -1,4 +1,4 @@
-The following license only applies to code that was contributed to this repository in the context of BitShares worker proposals and/or BitShares-1 delegate workers. Other code may be licensed indirectly by our "sister" repositories https://github.com/EOSIO/fc and https://github.com/bytemaster/fc/tree/phoenix .
+The following license only applies to code that was contributed to this repository in the context of BitShares worker proposals and/or BitShares-1 delegate workers. Other code may be licensed indirectly by our "sister" repositories https://github.com/EOSIO/fc, https://github.com/steemit/fc and https://github.com/bytemaster/fc/tree/phoenix .
 
 All subsequent contributions to this repository are licensed by their respective authors under this same license as well, unless explicitly stated otherwise.
 
@@ -6,7 +6,8 @@ Furthermore, this repository includes code from third party authors. See the lis
 
 ----
 
-Copyright (c) 2018-2019 BitShares Blockchain Foundation and contributors
+Copyright (c) 2018-2019 BitShares Blockchain Foundation
+Copyright (c) 2018-2021 contributors, see CONTRIBUTORS.txt
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
