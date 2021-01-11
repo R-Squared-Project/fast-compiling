@@ -1,4 +1,4 @@
-name: Github CI Ubuntu Release
+name: Ubuntu Release Build
 on: [ push, pull_request ]
 env:
   CCACHE_COMPRESS: exists means true

@@ -1,7 +1,9 @@
-fc
+FC
 ==
 
-[![](https://github.com/bitshares/bitshares-fc/workflows/Github%20Autobuild/badge.svg?branch=master)](https://github.com/bitshares/bitshares-fc/actions?query=branch%3Amaster)
+[![](https://github.com/bitshares/bitshares-fc/workflows/macOS%20Build/badge.svg?branch=master)](https://github.com/bitshares/bitshares-fc/actions?query=workflow%3A"macOS+Build"+branch%3Amaster)
+[![](https://github.com/bitshares/bitshares-fc/workflows/Ubuntu%20Debug%20Build/badge.svg?branch=master)](https://github.com/bitshares/bitshares-fc/actions?query=workflow%3A"Ubuntu+Debug+Build"+branch%3Amaster)
+[![](https://github.com/bitshares/bitshares-fc/workflows/Ubuntu%20Release%20Build/badge.svg?branch=master)](https://github.com/bitshares/bitshares-fc/actions?query=workflow%3A"Ubuntu+Release+Build"+branch%3Amaster)
 
 **NOTE:** This fork reverts upstream commit a421e280488385cab26a42153f7ce3c8d5b6281f to avoid changing the BitShares API.
 
