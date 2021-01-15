@@ -33,7 +33,7 @@ Tzadik Vanderhoof <tzadik.vanderhoof@gmail.com>
 Yuvaraj Gogoi <yuvarajgogoi@gmail.com>
 arhag <arhag@users.noreply.github.com>
 grzegorzs <gszczepanek@syncad.com>
-Alexey Frolov <a.frolov@aetsoft.by>
+Alexey Frolov <alexey.frolov@aetsoft.by>
 BrownBear <->
 Matias Romeo <matias.romeo@gmail.com>
 Wei Yang <richard.weiyang@gmail.com>
