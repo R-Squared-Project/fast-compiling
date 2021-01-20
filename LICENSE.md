@@ -6,9 +6,7 @@ Furthermore, this repository includes code from third party authors. See the lis
 
 ----
 
-Copyright (c) 2018-2019 BitShares Blockchain Foundation
-
-Copyright (c) 2018-2021 contributors, see CONTRIBUTORS.txt
+Copyright (c) 2018-2021 BitShares Blockchain Foundation and contributors (see CONTRIBUTORS.txt).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
