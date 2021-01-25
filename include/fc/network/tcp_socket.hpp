@@ -55,7 +55,14 @@ namespace fc {
     private:
       friend class tcp_server;
       class impl;
-      fc::fwd<impl,sizeof(void* /*vtable*/)+sizeof(fc::future<size_t>)*2+sizeof(boost::asio::ip::tcp::socket)+sizeof(tcp_socket_io_hooks*)> my;
+      fc::fwd<impl,
+        sizeof(void* /*vtable*/) +
+        sizeof(fc::future<size_t>) +
+        sizeof(fc::future<size_t>) +
+        sizeof(boost::asio::ip::tcp::socket) +
+        sizeof(tcp_socket_io_hooks*)
+    > my;
+
   };
   typedef std::shared_ptr<tcp_socket> tcp_socket_ptr;
 
