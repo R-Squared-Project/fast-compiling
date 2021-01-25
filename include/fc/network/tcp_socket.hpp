@@ -61,7 +61,7 @@ namespace fc {
         sizeof(fc::future<size_t>) +
         sizeof(boost::asio::ip::tcp::socket) +
         sizeof(tcp_socket_io_hooks*)
-    > my;
+      > my;
 
   };
   typedef std::shared_ptr<tcp_socket> tcp_socket_ptr;
