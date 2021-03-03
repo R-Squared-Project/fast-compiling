@@ -99,7 +99,9 @@ jobs:
         find _build/CMakeFiles/fc.dir -type d -print \
           | while read d; do gcov -o "$d" "${d/_build*.dir/.}"/*.cpp; done >/dev/null
         if [ -z "$GITHUB_HEAD_REF" ]; then \
-          echo "sonar.branch.target=master" >> sonar-project.properties; \
+          if [ "$GITHUB_REF" != "refs/heads/master" ]; then \
+            echo "sonar.branch.target=master" >> sonar-project.properties; \
+          fi; \
           if [ "${GITHUB_REF#refs/heads/}" != "$GITHUB_REF" ]; then \
             echo "sonar.branch.name=${GITHUB_REF#refs/heads/}" >> sonar-project.properties; \
           elif [ "${GITHUB_REF#refs/tags/}" != "$GITHUB_REF" ]; then \
