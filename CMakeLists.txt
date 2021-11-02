@@ -190,6 +190,8 @@ set( fc_sources
      src/rpc/cli.cpp
      src/rpc/state.cpp
      src/rpc/websocket_api.cpp
+     src/rpc/multipart_parser.cpp
+     src/rpc/multipartparser.c
      src/log/log_message.cpp
      src/log/logger.cpp
      src/log/appender.cpp

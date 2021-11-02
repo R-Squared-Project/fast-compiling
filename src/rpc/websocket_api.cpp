@@ -1,6 +1,8 @@
 #include <fc/reflect/variant.hpp>
 #include <fc/rpc/websocket_api.hpp>
+#include <fc/rpc/multipart_parser.hpp>
 #include <fc/io/json.hpp>
+#include <iostream>
 
 namespace fc { namespace rpc {
 
@@ -127,7 +129,14 @@ response websocket_api_connection::on_message( const std::string& message )
    variant var;
    try
    {
-      var = fc::json::from_string( message, fc::json::legacy_parser, _max_conversion_depth );
+      size_t message_size = message.size();
+      if (message_size < 10000) {
+         std::cout << message << std::endl;
+         std::cout.flush();
+      }
+      multipart_parser mp_parser;
+      var = mp_parser.parse_string( message, _max_conversion_depth);
+      // var = fc::json::from_string( message, fc::json::legacy_parser, _max_conversion_depth );
    }
    catch( const fc::exception& e )
    {
