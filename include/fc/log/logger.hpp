@@ -164,29 +164,29 @@ namespace fc
 //      as a quick-fix / workaround, we catch all exceptions here.
 //      However, to log as much info as possible, it's better to catch exceptions when processing each argument
 #define idump( SEQ ) \
-{ \
+do { \
    try { \
       ilog( FC_FORMAT(SEQ), FC_FORMAT_ARG_PARAMS(SEQ) ); \
    } catch( ... ) { \
       ilog ( "[ERROR: Got exception while trying to dump ( ${args} )]",("args",FC_DUMP_FORMAT_ARG_NAMES(SEQ)) ); \
    } \
-}
+} while( false )
 #define wdump( SEQ ) \
-{ \
+do { \
    try { \
       wlog( FC_FORMAT(SEQ), FC_FORMAT_ARG_PARAMS(SEQ) ); \
    } catch( ... ) { \
       wlog ( "[ERROR: Got exception while trying to dump ( ${args} )]",("args",FC_DUMP_FORMAT_ARG_NAMES(SEQ)) ); \
    } \
-}
+} while( false )
 #define edump( SEQ ) \
-{ \
+do { \
    try { \
       elog( FC_FORMAT(SEQ), FC_FORMAT_ARG_PARAMS(SEQ) ); \
    } catch( ... ) { \
       elog ( "[ERROR: Got exception while trying to dump ( ${args} )]",("args",FC_DUMP_FORMAT_ARG_NAMES(SEQ)) ); \
    } \
-}
+} while( false )
 
 // this disables all normal logging statements -- not something you'd normally want to do,
 // but it's useful if you're benchmarking something and suspect logging is causing
