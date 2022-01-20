@@ -74,8 +74,10 @@ protected:
 
     void init_from_tag(tag_type tag)
     {
-        FC_ASSERT( tag >= 0 );
-        FC_ASSERT( static_cast<size_t>(tag) < count() );
+        FC_ASSERT( tag >= 0, "Unable to init with a negative tag '${tag}'", ("tag",tag) );
+        FC_ASSERT( static_cast<size_t>(tag) < count(),
+                   "Unable to init with tag '${tag}' when the number of supported tags is ${count}",
+                   ("tag",tag) ("count",count()) );
         _tag = tag;
         typelist::runtime::dispatch(list(), tag, [this](auto t) {
             using T = typename decltype(t)::type;
@@ -235,7 +237,9 @@ public:
         if(_tag == typelist::index_of<list, X>()) {
             return *reinterpret_cast<X*>(storage.data());
         } else {
-            FC_THROW_EXCEPTION( fc::assert_exception, "static_variant does not contain a value of type ${t}", ("t",fc::get_typename<X>::name()) );
+            FC_THROW_EXCEPTION( fc::assert_exception,
+                                "static_variant does not contain a value of type ${t}",
+                                ("t",fc::get_typename<X>::name()) );
         }
     }
     template<typename X, typename = type_in_typelist<X>>
@@ -243,7 +247,9 @@ public:
         if(_tag == typelist::index_of<list, X>()) {
             return *reinterpret_cast<const X*>(storage.data());
         } else {
-            FC_THROW_EXCEPTION( fc::assert_exception, "static_variant does not contain a value of type ${t}", ("t",fc::get_typename<X>::name()) );
+            FC_THROW_EXCEPTION( fc::assert_exception,
+                                "static_variant does not contain a value of type ${t}",
+                                ("t",fc::get_typename<X>::name()) );
         }
     }
     template<typename visitor>
@@ -269,7 +275,9 @@ public:
     template<typename visitor>
     static typename visitor::result_type visit( tag_type tag, visitor& v, void* data )
     {
-        FC_ASSERT( tag >= 0 && static_cast<size_t>(tag) < count(), "Unsupported type ${tag}!", ("tag",tag) );
+        FC_ASSERT( tag >= 0 && static_cast<size_t>(tag) < count(),
+                   "Unsupported type '${tag}', the number of supported types is ${count}! ",
+                   ("tag",tag) ("count",count()) );
         return typelist::runtime::dispatch(list(), tag, [&v, data](auto t) {
             return v(*reinterpret_cast<typename decltype(t)::type*>(data));
         });
@@ -278,7 +286,9 @@ public:
     template<typename visitor>
     static typename visitor::result_type visit( tag_type tag, const visitor& v, void* data )
     {
-        FC_ASSERT( tag >= 0 && static_cast<size_t>(tag) < count(), "Unsupported type ${tag}!", ("tag",tag) );
+        FC_ASSERT( tag >= 0 && static_cast<size_t>(tag) < count(),
+                   "Unsupported type '${tag}', the number of supported types is ${count}! ",
+                   ("tag",tag) ("count",count()) );
         return typelist::runtime::dispatch(list(), tag, [&v, data](auto t) {
             return v(*reinterpret_cast<typename decltype(t)::type*>(data));
         });
@@ -287,7 +297,9 @@ public:
     template<typename visitor>
     static typename visitor::result_type visit( tag_type tag, visitor& v, const void* data )
     {
-        FC_ASSERT( tag >= 0 && static_cast<size_t>(tag) < count(), "Unsupported type ${tag}!", ("tag",tag) );
+        FC_ASSERT( tag >= 0 && static_cast<size_t>(tag) < count(),
+                   "Unsupported type '${tag}', the number of supported types is ${count}! ",
+                   ("tag",tag) ("count",count()) );
         return typelist::runtime::dispatch(list(), tag, [&v, data](auto t) {
             return v(*reinterpret_cast<const typename decltype(t)::type*>(data));
         });
@@ -296,7 +308,9 @@ public:
     template<typename visitor>
     static typename visitor::result_type visit( tag_type tag, const visitor& v, const void* data )
     {
-        FC_ASSERT( tag >= 0 && static_cast<size_t>(tag) < count(), "Unsupported type ${tag}!", ("tag",tag) );
+        FC_ASSERT( tag >= 0 && static_cast<size_t>(tag) < count(),
+                   "Unsupported type '${tag}', the number of supported types is ${count}! ",
+                   ("tag",tag) ("count",count()) );
         return typelist::runtime::dispatch(list(), tag, [&v, data](auto t) {
             return v(*reinterpret_cast<const typename decltype(t)::type*>(data));
         });
@@ -304,8 +318,10 @@ public:
 
     static constexpr size_t count() { return typelist::length<list>(); }
     void set_which( tag_type tag ) {
-      FC_ASSERT( tag >= 0 );
-      FC_ASSERT( static_cast<size_t>(tag) < count() );
+      FC_ASSERT( tag >= 0, "Unable to set a negative tag '${tag}'", ("tag",tag) );
+      FC_ASSERT( static_cast<size_t>(tag) < count(),
+                 "Unable to set tag '${tag}' when the number of supported tags is ${count}",
+                 ("tag",tag) ("count",count()) );
       clean();
       init_from_tag(tag);
     }
