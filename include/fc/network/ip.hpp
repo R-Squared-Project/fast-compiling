@@ -9,11 +9,13 @@ namespace fc {
   namespace ip {
     class address {
       public:
-        address( uint32_t _ip = 0 );
-        address( const std::string& s );
+        explicit address( uint32_t ip = 0 );
+        explicit address( const std::string& s );
 
         address& operator=( const std::string& s );
-        operator std::string()const;
+        address& operator=( uint32_t ip );
+        explicit operator std::string()const;
+        // Note: there are quite a few places where it is used implicitly, so we haven't marked it as explicit so far.
         operator uint32_t()const;
 
         friend bool operator==( const address& a, const address& b );
@@ -22,10 +24,10 @@ namespace fc {
         /**
          *  @return true if the ip is in the following ranges:
          *
-         *  10.0.0.0    to 10.255.255.255
-         *  172.16.0.0  to 172.31.255.255
-         *  192.168.0.0 to 192.168.255.255
-         *  169.254.0.0 to 169.254.255.255
+         *  * 10.0.0.0    to 10.255.255.255
+         *  * 172.16.0.0  to 172.31.255.255
+         *  * 192.168.0.0 to 192.168.255.255
+         *  * 169.254.0.0 to 169.254.255.255
          *
          */
         bool is_private_address()const;
@@ -33,8 +35,28 @@ namespace fc {
          *  224.0.0.0 to 239.255.255.255
          */
         bool is_multicast_address()const;
+        /**
+         *  127.0.0.0 to 127.255.255.255
+         */
+        bool is_loopback_address()const;
 
-        /** !private & !multicast */
+        /**
+         * !private && !loopback && !multicast
+         *
+         * @note technically there are some addresses that are reserved but not public
+         *   (see https://en.wikipedia.org/wiki/Reserved_IP_addresses), but so far we haven't distinguished them.
+         * * 0.0.0.0–0.255.255.255
+         * * 100.64.0.0–100.127.255.255
+         * * 192.0.0.0–192.0.0.255
+         * * 192.0.2.0–192.0.2.255
+         * * 192.88.99.0–192.88.99.255
+         * * 198.18.0.0–198.19.255.255
+         * * 198.51.100.0–198.51.100.255
+         * * 203.0.113.0–203.0.113.255
+         * * 233.252.0.0-233.252.0.255 (within the range 224.0.0.0–239.255.255.255)
+         * * 240.0.0.0–255.255.255.254
+         * * 255.255.255.255
+         */
         bool is_public_address()const;
       private:
         uint32_t _ip;
@@ -42,13 +64,14 @@ namespace fc {
 
     class endpoint {
       public:
-        endpoint();
-        endpoint( const address& i, uint16_t p = 0);
+        endpoint() = default;
+        explicit endpoint( const address& i, uint16_t p = 0);
+        explicit endpoint( uint32_t i, uint16_t p = 0);
 
         /** Converts "IP:PORT" to an endpoint */
         static endpoint from_string( const string& s );
         /** returns "IP:PORT" */
-        operator string()const;
+        explicit operator string()const;
 
         void           set_port(uint16_t p ) { _port = p; }
         uint16_t       port()const;
@@ -66,7 +89,7 @@ namespace fc {
          *  otherwise 2 bytes will be 'random' and you do not know
          *  where they are stored.
          */
-        uint32_t _port;
+        uint32_t _port = 0;
         address  _ip;
     };
 
