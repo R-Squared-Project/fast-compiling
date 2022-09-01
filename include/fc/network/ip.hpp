@@ -41,7 +41,7 @@ namespace fc {
         bool is_loopback_address()const;
 
         /**
-         * !private && !loopback && !multicast
+         * not private, not loopback, and not multicast
          *
          * @note technically there are some addresses that are reserved but not public
          *   (see https://en.wikipedia.org/wiki/Reserved_IP_addresses), but so far we haven't distinguished them.

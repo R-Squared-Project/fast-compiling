@@ -146,7 +146,7 @@ namespace fc { namespace ip {
     return  _ip >= min_ip._ip  && _ip <= max_ip._ip;
   }
 
-  /* !private && !loopback && !multicast */
+  // not private, not loopback, and not multicast
   bool address::is_public_address()const
   {
     return !( is_private_address() || is_loopback_address() || is_multicast_address() );
