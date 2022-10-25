@@ -111,10 +111,10 @@ namespace fc
    template<typename K, typename T, typename... A>
    void from_variant(const variant& var, flat_map<K, T, A...>& vo, uint32_t max_depth );
 
-   template<typename K, typename T>
-   void to_variant( const std::map<K,T>& var,   variant& vo, uint32_t max_depth );
-   template<typename K, typename T>
-   void from_variant( const variant& var, std::map<K,T>& vo, uint32_t max_depth );
+   template<typename K, typename... T>
+   void to_variant( const std::map<K, T...>& var,   variant& vo, uint32_t max_depth );
+   template<typename K, typename T, typename... A>
+   void from_variant( const variant& var, std::map<K, T, A...>& vo, uint32_t max_depth );
    template<typename K, typename T>
    void to_variant( const std::multimap<K,T>& var,   variant& vo, uint32_t max_depth );
    template<typename K, typename T>
@@ -445,8 +445,8 @@ namespace fc
       for( const auto& item : vars )
          vo.insert( item.as< std::pair<K,T> >( max_depth - 1 ) );
    }
-   template<typename K, typename T>
-   void to_variant( const std::map<K, T>& var, variant& vo, uint32_t max_depth )
+   template<typename K, typename... T>
+   void to_variant( const std::map<K, T...>& var, variant& vo, uint32_t max_depth )
    {
       _FC_ASSERT( max_depth > 0, "Recursion depth exceeded!" );
       std::vector< variant > vars(var.size());
@@ -455,13 +455,13 @@ namespace fc
          vars[i++] = fc::variant( key_value, max_depth - 1 );
       vo = vars;
    }
-   template<typename K, typename T>
-   void from_variant( const variant& var, std::map<K, T>& vo, uint32_t max_depth )
+   template<typename K, typename T, typename... A>
+   void from_variant( const variant& var, std::map<K, T, A...>& vo, uint32_t max_depth )
    {
       _FC_ASSERT( max_depth > 0, "Recursion depth exceeded!" );
       const variants& vars = var.get_array();
       vo.clear();
-      for( auto item : vars )
+      for( const auto& item : vars )
          vo.insert( item.as< std::pair<K,T> >( max_depth - 1 ) );
    }
 

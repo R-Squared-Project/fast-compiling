@@ -67,8 +67,10 @@ namespace fc {
     template<typename Stream, typename K, typename V> inline void pack( Stream& s, const std::unordered_map<K,V>& value, uint32_t _max_depth=FC_PACK_MAX_DEPTH );
     template<typename Stream, typename K, typename V> inline void unpack( Stream& s, std::unordered_map<K,V>& value, uint32_t _max_depth=FC_PACK_MAX_DEPTH );
 
-    template<typename Stream, typename K, typename V> inline void pack( Stream& s, const std::map<K,V>& value, uint32_t _max_depth=FC_PACK_MAX_DEPTH );
-    template<typename Stream, typename K, typename V> inline void unpack( Stream& s, std::map<K,V>& value, uint32_t _max_depth=FC_PACK_MAX_DEPTH );
+    template<typename Stream, typename K, typename... V>
+    inline void pack( Stream& s, const std::map<K, V...>& value, uint32_t _max_depth=FC_PACK_MAX_DEPTH );
+    template<typename Stream, typename K, typename V, typename... A>
+    inline void unpack( Stream& s, std::map<K, V, A...>& value, uint32_t _max_depth=FC_PACK_MAX_DEPTH );
 
     //template<typename Stream, typename K, typename... V> inline void pack( Stream& s, const flat_map<K,V...>& value, uint32_t _max_depth=FC_PACK_MAX_DEPTH );
     //template<typename Stream, typename K, typename V, typename... A> inline void unpack( Stream& s, flat_map<K,V,A...>& value, uint32_t _max_depth=FC_PACK_MAX_DEPTH );
