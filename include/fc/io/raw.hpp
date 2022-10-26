@@ -620,8 +620,8 @@ namespace fc {
           value.insert( std::move(tmp) );
        }
     }
-    template<typename Stream, typename K, typename V>
-    inline void pack( Stream& s, const std::map<K,V>& value, uint32_t _max_depth ) {
+    template<typename Stream, typename K, typename... V>
+    inline void pack( Stream& s, const std::map<K, V...>& value, uint32_t _max_depth ) {
        FC_ASSERT( _max_depth > 0 );
        --_max_depth;
        fc::raw::pack( s, unsigned_int(value.size()), _max_depth );
@@ -632,8 +632,8 @@ namespace fc {
           ++itr;
        }
     }
-    template<typename Stream, typename K, typename V>
-    inline void unpack( Stream& s, std::map<K,V>& value, uint32_t _max_depth )
+    template<typename Stream, typename K, typename V, typename... A>
+    inline void unpack( Stream& s, std::map<K, V, A...>& value, uint32_t _max_depth )
     {
        FC_ASSERT( _max_depth > 0 );
        --_max_depth;
