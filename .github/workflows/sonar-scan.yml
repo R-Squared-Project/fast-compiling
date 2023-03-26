@@ -38,6 +38,7 @@ jobs:
           sudo apt-get install -y --allow-downgrades openssl=${openssl_ver} libssl-dev=${libssl_ver}
         sudo apt-get install -y \
                      ccache \
+                     gcovr \
                      parallel \
                      libboost-thread-dev \
                      libboost-iostreams-dev \
@@ -98,8 +99,6 @@ jobs:
         _EOT_
     - name: Prepare for scanning with SonarScanner
       run: |
-        find _build/CMakeFiles/fc.dir -type d -print \
-          | while read d; do gcov -o "$d" "${d/_build*.dir/.}"/*.cpp; done >/dev/null
         if [ -z "$GITHUB_HEAD_REF" ]; then \
           if [ "$GITHUB_REF" != "refs/heads/master" ]; then \
             echo "sonar.branch.target=master" >> sonar-project.properties; \
@@ -112,6 +111,10 @@ jobs:
             echo "sonar.branch.name=${GITHUB_REF}" >> sonar-project.properties; \
           fi \
         fi
+        pushd _build
+        gcovr --version
+        gcovr --exclude-unreachable-branches --sonarqube ../coverage.xml -r ..
+        popd
     - name: Scan with SonarScanner
       env:
         # to get access to secrets.SONAR_TOKEN, provide GITHUB_TOKEN
