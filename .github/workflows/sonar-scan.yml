@@ -50,7 +50,7 @@ jobs:
                      libboost-context-dev \
                      libboost-regex-dev \
                      libboost-coroutine-dev
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
         submodules: recursive
@@ -74,7 +74,7 @@ jobs:
     - run: |
         echo "OS_VERSION=`lsb_release -sr`" >> $GITHUB_ENV
     - name: Load Cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: |
           ccache
