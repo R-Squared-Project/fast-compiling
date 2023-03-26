@@ -23,7 +23,9 @@ BOOST_AUTO_TEST_CASE(log_reboot)
 {
     BOOST_TEST_MESSAGE("Setting up logger");
     fc::file_appender::config conf;
-    conf.filename = "/tmp/my.log";
+    fc::temp_directory log_dir;
+    conf.filename = log_dir.path() / "my.log";
+    BOOST_TEST_MESSAGE( std::string( "conf.filename=" ) + conf.filename.string() );
     conf.format = "${timestamp} ${thread_name} ${context} ${file}:${line} ${method} ${level}]  ${message}";
     conf.flush = true;
     conf.rotate = true;
