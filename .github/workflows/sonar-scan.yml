@@ -78,7 +78,6 @@ jobs:
       with:
         path: |
           ccache
-          sonar_cache
         key: sonar-${{ env.OS_VERSION }}-${{ github.ref }}-${{ github.sha }}
         restore-keys: |
           sonar-${{ env.OS_VERSION }}-${{ github.ref }}-
@@ -99,7 +98,6 @@ jobs:
         _EOT_
     - name: Prepare for scanning with SonarScanner
       run: |
-        mkdir -p sonar_cache
         find _build/CMakeFiles/fc.dir -type d -print \
           | while read d; do gcov -o "$d" "${d/_build*.dir/.}"/*.cpp; done >/dev/null
         if [ -z "$GITHUB_HEAD_REF" ]; then \
