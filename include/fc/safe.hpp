@@ -32,49 +32,70 @@ namespace fc {
       // Both T and V are signed
       template< typename V, typename... Dummy, typename X = T,
                 std::enable_if_t< std::is_signed<X>::value, bool > = true,
+                std::enable_if_t< std::is_integral<V>::value, bool > = true,
                 std::enable_if_t< std::is_signed<V>::value, bool > = true >
-      safe( V v ) : value(v)
+      static T check( V v )
       {
          static_assert( 0 == sizeof...(Dummy), "Unexpected template argument(s)" );
          if( v > std::numeric_limits<T>::max() )
             FC_CAPTURE_AND_THROW( overflow_exception, (v) );
          if( v < std::numeric_limits<T>::min() )
             FC_CAPTURE_AND_THROW( underflow_exception, (v) );
+         return static_cast<T>( v );
       }
 
       // Both T and V are unsigned
       template< typename V, typename... Dummy, typename X = T,
                 std::enable_if_t< std::is_unsigned<X>::value, bool > = true,
+                std::enable_if_t< std::is_integral<V>::value, bool > = true,
                 std::enable_if_t< std::is_unsigned<V>::value, bool > = true >
-      safe( V v ) : value(v)
+      static T check( V v )
       {
          static_assert( 0 == sizeof...(Dummy), "Unexpected template argument(s)" );
          if( v > std::numeric_limits<T>::max() )
             FC_CAPTURE_AND_THROW( overflow_exception, (v) );
+         return static_cast<T>( v );
       }
 
       // T is unsigned and V is signed
       template< typename V, typename... Dummy, typename X = T,
                 std::enable_if_t< std::is_unsigned<X>::value, bool > = true,
+                std::enable_if_t< std::is_integral<V>::value, bool > = true,
                 std::enable_if_t< std::is_signed<V>::value, bool > = true >
-      safe( V v ) : value(v)
+      static T check( V v )
       {
          static_assert( 0 == sizeof...(Dummy), "Unexpected template argument(s)" );
          if( v < 0 )
             FC_CAPTURE_AND_THROW( underflow_exception, (v) );
          if( static_cast< typename std::make_unsigned_t<V> >(v) > std::numeric_limits<T>::max() )
             FC_CAPTURE_AND_THROW( overflow_exception, (v) );
+         return static_cast<T>( v );
       }
 
       // T is signed and V is unsigned
       template< typename V, typename... Dummy, typename X = T,
                 std::enable_if_t< std::is_signed<X>::value, bool > = true,
-                std::enable_if_t< std::is_unsigned<V>::value, bool > = 0 >
-      safe( V v ) : value(v)
+                std::enable_if_t< std::is_integral<V>::value, bool > = true,
+                std::enable_if_t< std::is_unsigned<V>::value, bool > = true >
+      static T check( V v )
       {
          static_assert( 0 == sizeof...(Dummy), "Unexpected template argument(s)" );
          if( v > static_cast< typename std::make_unsigned_t<T> >( std::numeric_limits<T>::max() ) )
             FC_CAPTURE_AND_THROW( overflow_exception, (v) );
+         return static_cast<T>( v );
+      }
+
+      template< typename V >
+      safe( V v ) : value( check(v) )
+      {
+         // Nothing else to do
+      }
+
+      template< typename V >
+      safe& operator = ( V v )
+      {
+         value = check(v);
+         return *this;
       }
 
       static constexpr safe min()
