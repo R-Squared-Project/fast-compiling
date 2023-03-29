@@ -50,6 +50,7 @@ add_executable( all_tests all_tests.cpp
                           thread/parallel_tests.cpp
                           bloom_test.cpp
                           reflection_tests.cpp
+                          safe_tests.cpp
                           serialization_test.cpp
                           stacktrace_test.cpp
                           time_test.cpp
