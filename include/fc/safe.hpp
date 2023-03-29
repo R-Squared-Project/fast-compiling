@@ -271,11 +271,11 @@ namespace fc {
       {
           return a.value == b.value;
       }
-      friend bool operator == ( const safe& a, const T& b )
+      friend bool operator == ( const safe& a, T b )
       {
           return a.value == b;
       }
-      friend bool operator == ( const T& a, const safe& b )
+      friend bool operator == ( T a, const safe& b )
       {
           return a == b.value;
       }
@@ -284,11 +284,11 @@ namespace fc {
       {
           return a.value < b.value;
       }
-      friend bool operator < ( const safe& a, const T& b )
+      friend bool operator < ( const safe& a, T b )
       {
           return a.value < b;
       }
-      friend bool operator < ( const T& a, const safe& b )
+      friend bool operator < ( T a, const safe& b )
       {
           return a < b.value;
       }
@@ -297,11 +297,11 @@ namespace fc {
       {
           return a.value > b.value;
       }
-      friend bool operator > ( const safe& a, const T& b )
+      friend bool operator > ( const safe& a, T b )
       {
           return a.value > b;
       }
-      friend bool operator > ( const T& a, const safe& b )
+      friend bool operator > ( T a, const safe& b )
       {
           return a > b.value;
       }
@@ -310,11 +310,11 @@ namespace fc {
       {
           return !(a == b);
       }
-      friend bool operator != ( const safe& a, const T& b )
+      friend bool operator != ( const safe& a, T b )
       {
           return !(a == b);
       }
-      friend bool operator != ( const T& a, const safe& b )
+      friend bool operator != ( T a, const safe& b )
       {
           return !(a == b);
       }
@@ -323,11 +323,11 @@ namespace fc {
       {
           return !(a > b);
       }
-      friend bool operator <= ( const safe& a, const T& b )
+      friend bool operator <= ( const safe& a, T b )
       {
           return !(a > b);
       }
-      friend bool operator <= ( const T& a, const safe& b )
+      friend bool operator <= ( T a, const safe& b )
       {
           return !(a > b);
       }
@@ -336,11 +336,11 @@ namespace fc {
       {
           return !(a < b);
       }
-      friend bool operator >= ( const safe& a, const T& b )
+      friend bool operator >= ( const safe& a, T b )
       {
           return !(a < b);
       }
-      friend bool operator >= ( const T& a, const safe& b )
+      friend bool operator >= ( T a, const safe& b )
       {
           return !(a < b);
       }
