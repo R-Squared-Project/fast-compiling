@@ -53,13 +53,21 @@ namespace fc {
             {
                 if( ec == boost::asio::error::eof  )
                 {
-                  p->set_exception( fc::exception_ptr( new fc::eof_exception(
-                          FC_LOG_MESSAGE( error, "${message} ", ("message", boost::system::system_error(ec).what())) ) ) );
+                  p->set_exception( std::make_shared<fc::eof_exception>(
+                          FC_LOG_MESSAGE( error, "${message} ",
+                                          ("message", boost::system::system_error(ec).what())) ) );
+                }
+                else if( ec == boost::asio::error::operation_aborted )
+                {
+                  p->set_exception( std::make_shared<fc::canceled_exception>(
+                          FC_LOG_MESSAGE( error, "${message} ",
+                                          ("message", boost::system::system_error(ec).what())) ) );
                 }
                 else
                 {
-                  p->set_exception( fc::exception_ptr( new fc::exception(
-                          FC_LOG_MESSAGE( error, "${message} ", ("message", boost::system::system_error(ec).what())) ) ) );
+                  p->set_exception( std::make_shared<fc::exception>(
+                          FC_LOG_MESSAGE( error, "${message} ",
+                                          ("message", boost::system::system_error(ec).what())) ) );
                 }
             }
         }
