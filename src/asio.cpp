@@ -22,9 +22,23 @@ namespace fc {
         if( !ec )
           _completion_promise->set_value(bytes_transferred);
         else if( ec == boost::asio::error::eof  )
-          _completion_promise->set_exception( fc::exception_ptr( new fc::eof_exception( FC_LOG_MESSAGE( error, "${message} ", ("message", boost::system::system_error(ec).what())) ) ) );
+        {
+          _completion_promise->set_exception( std::make_shared<fc::eof_exception>(
+                          FC_LOG_MESSAGE( error, "${message} ",
+                                          ("message", boost::system::system_error(ec).what())) ) );
+        }
+        else if( ec == boost::asio::error::operation_aborted )
+        {
+          _completion_promise->set_exception( std::make_shared<fc::canceled_exception>(
+                          FC_LOG_MESSAGE( error, "${message} ",
+                                          ("message", boost::system::system_error(ec).what())) ) );
+        }
         else
-          _completion_promise->set_exception( fc::exception_ptr( new fc::exception( FC_LOG_MESSAGE( error, "${message} ", ("message", boost::system::system_error(ec).what())) ) ) );
+        {
+          _completion_promise->set_exception( std::make_shared<fc::exception>(
+                          FC_LOG_MESSAGE( error, "${message} ",
+                                          ("message", boost::system::system_error(ec).what())) ) );
+        }
       }
       read_write_handler_with_buffer::read_write_handler_with_buffer(const promise<size_t>::ptr& completion_promise,
                                                                      const std::shared_ptr<const char>& buffer) :
@@ -36,12 +50,27 @@ namespace fc {
         if( !ec )
           _completion_promise->set_value(bytes_transferred);
         else if( ec == boost::asio::error::eof  )
-          _completion_promise->set_exception( fc::exception_ptr( new fc::eof_exception( FC_LOG_MESSAGE( error, "${message} ", ("message", boost::system::system_error(ec).what())) ) ) );
+        {
+          _completion_promise->set_exception( std::make_shared<fc::eof_exception>(
+                          FC_LOG_MESSAGE( error, "${message} ",
+                                          ("message", boost::system::system_error(ec).what())) ) );
+        }
+        else if( ec == boost::asio::error::operation_aborted )
+        {
+          _completion_promise->set_exception( std::make_shared<fc::canceled_exception>(
+                          FC_LOG_MESSAGE( error, "${message} ",
+                                          ("message", boost::system::system_error(ec).what())) ) );
+        }
         else
-          _completion_promise->set_exception( fc::exception_ptr( new fc::exception( FC_LOG_MESSAGE( error, "${message} ", ("message", boost::system::system_error(ec).what())) ) ) );
+        {
+          _completion_promise->set_exception( std::make_shared<fc::exception>(
+                          FC_LOG_MESSAGE( error, "${message} ",
+                                          ("message", boost::system::system_error(ec).what())) ) );
+        }
       }
 
-        void read_write_handler_ec( promise<size_t>* p, boost::system::error_code* oec, const boost::system::error_code& ec, size_t bytes_transferred ) {
+        void read_write_handler_ec( promise<size_t>* p, boost::system::error_code* oec,
+                                    const boost::system::error_code& ec, size_t bytes_transferred ) {
             p->set_value(bytes_transferred);
             *oec = ec;
         }
